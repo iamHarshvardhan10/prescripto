@@ -10,6 +10,16 @@
   cursor: pointer;
 }
 
+.white-btn {
+  padding: 10px 30px;
+  border-radius: 25px;
+  color: #000;
+  background-color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
 .app {
   width: 100%;
   max-width: 1200px;
@@ -20,4 +30,20 @@
 .nav-container {
   //   position: fixed;
   //   margin: 0 auto;
+}
+
+// HOME CONTAINER
+.home-container {
+  position: relative;
+  margin-top: 30px;
+  background-color: #5f6fff;
+  height: calc(100vh - 150px);
+
+  .flex.items-center.justify-center.m-15 {
+    margin: 15px 0px;
+  }
+
+  .span-container {
+    margin-left: 15px;
+  }
 }

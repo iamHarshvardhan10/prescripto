@@ -24,7 +24,7 @@ const Navbar = () => {
         </ul>
       </div>
       <div>
-        <Button text={"Create Account"} to={"/sign"} />
+        <Button text={"Create Account"} to={"/sign"} className={"btn btn-container"}/>
       </div>
     </nav>
   );
