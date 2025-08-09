@@ -27,5 +27,18 @@ const doctorSchema = new mongoose.Schema({
     available: {
         type: Boolean,
         required: true
-    }
-})
+    },
+    licenseNumber: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    fees: {
+        type: String,
+    },
+
+}, { timestamps: true })
+
+const Doctor = mongoose.model('Doctor' , doctorSchema);
+
+export default Doctor;
