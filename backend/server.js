@@ -2,6 +2,7 @@ import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
 import dbConnection from './config/database.js';
+// import smsSender from './utils/smsSender.js';
 // import mailSender from './utils/mailSender.js';
 
 
@@ -19,6 +20,7 @@ app.get('/', (req, res) => {
 
 
 // mailSender('shreeharshpb11@gmail.com', 'Testing email', '<h1>Test Email </h1>')
+// smsSender('Coderoom Say Hello to you' , '+918108424468')
 
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
