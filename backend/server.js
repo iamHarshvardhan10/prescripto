@@ -1,6 +1,7 @@
 import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
+import dbConnection from './config/database.js';
 
 
 const PORT = 3333 || process.env.PORT;
@@ -15,6 +16,7 @@ app.get('/', (req, res) => {
     })
 })
 
-app.listen(PORT , ()=>{
+app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`)
+    dbConnection(); //MONGODB CONNECTION FUNCTION
 })
