@@ -6,15 +6,7 @@ const otpSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    phoneNumber: {
-        type: String,
-        required: true
-    },
     otpViaEmail: {
-        type: String,
-        required: true
-    },
-    otpViaPhone: {
         type: String,
         required: true
     },
