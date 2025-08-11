@@ -4,12 +4,13 @@ import cors from 'cors'
 import dbConnection from './config/database.js';
 // import smsSender from './utils/smsSender.js';
 // import mailSender from './utils/mailSender.js';
+import authRoutes from './routes/auth.router.js'
 
-
-const PORT = 3333 || process.env.PORT;
+const PORT = process.env.PORT;
 
 const app = express();
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
     res.json({
@@ -18,6 +19,8 @@ app.get('/', (req, res) => {
     })
 })
 
+
+app.use('/api/v1/auth', authRoutes)
 
 // mailSender('shreeharshpb11@gmail.com', 'Testing email', '<h1>Test Email </h1>')
 // smsSender('Coderoom Say Hello to you' , '+918108424468')
