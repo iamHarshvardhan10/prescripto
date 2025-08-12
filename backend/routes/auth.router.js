@@ -1,5 +1,5 @@
 import express from 'express';
-import { register, sendOtp } from '../controllers/auth.controllers.js';
+import { login, register, sendOtp } from '../controllers/auth.controllers.js';
 
 
 const router = express.Router();
@@ -28,5 +28,9 @@ router.post('/send-otp', sendOtp)
 
 // REGISTER
 router.post('/register', register)
+
+
+// LOGIN
+router.post('/login', login)
 
 export default router;

@@ -2,16 +2,17 @@ import OTP from "../models/OTP.model.js";
 import User from "../models/User.model.js";
 import otpGenerator from 'otp-generator'
 import bcrypt from 'bcrypt'
-
+import jwt from 'jsonwebtoken'
+import 'dotenv/config'
 
 // SEND OTP
 export const sendOtp = async (req, res) => {
     try {
         const { email } = req.body;
 
-        const checkUserExist = await User.findOne({ email });
+        const checkuser = await User.findOne({ email });
 
-        if (checkUserExist) {
+        if (checkuser) {
             return res.status(401).json({
                 success: false,
                 message: 'User Already registered'
@@ -132,16 +133,53 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
     try {
         // DESTRCUTRE FROM REQ BODY
+        const { email, password } = req.body;
         // VALIDATE ALL FIELDS
+        if (!email || !password) {
+            return res.status(400).json({
+                message: 'ALL FEILDS REQUIRED',
+                success: false
+            })
+        }
         // CHECK USER 
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(409).json({
+                message: 'Please Register First! User Not Found',
+                success: false
+            })
+        }
         // DE HASH PASSWORD 
-        // TOKEN GENERATE 
-        // AND STORE IN USER 
-        // COOKIE
+        if (await bcrypt.compare(password, user.password)) {
+            // TOKEN GENERATE 
+            const token = await jwt.sign({ email: user.email, id: user._id, account_type: user.account_type }, process.env.SECRET_KEY, { expiresIn: "24h" })
+            // AND STORE IN USER 
+            user.token = token;
+            user.password = undefined;
+
+            // COOKIE
+            const options = {
+                expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
+                httpOnly: true
+            }
+
+            res.cookie("token", token, options).status(200).json({
+                success: true,
+                token,
+                user,
+                message: 'User Login'
+            })
+        } else {
+            return res.status(401).json({
+                message: 'Password is incorrect',
+                success: false
+            })
+        }
     } catch (error) {
         return res.status(500).json({
             message: 'Internal Server Error',
-            success: false
+            success: false,
+            error: error.message
         })
     }
 }
