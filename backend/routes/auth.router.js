@@ -1,5 +1,5 @@
 import express from 'express';
-import { sendOtp } from '../controllers/auth.controllers.js';
+import { register, sendOtp } from '../controllers/auth.controllers.js';
 
 
 const router = express.Router();
@@ -23,8 +23,10 @@ router.post('/get-test', (req, res) => {
     }
 })
 
-
+// SEND OTP
 router.post('/send-otp', sendOtp)
 
+// REGISTER
+router.post('/register', register)
 
 export default router;
