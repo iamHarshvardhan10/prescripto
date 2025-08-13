@@ -1,6 +1,7 @@
 import express from 'express'
 import 'dotenv/config'
 import cors from 'cors'
+import cookieParser from 'cookie-parser'
 import dbConnection from './config/database.js';
 // import smsSender from './utils/smsSender.js';
 // import mailSender from './utils/mailSender.js';
@@ -11,6 +12,7 @@ const PORT = process.env.PORT;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 app.get('/', (req, res) => {
     res.json({

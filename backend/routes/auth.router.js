@@ -1,5 +1,6 @@
 import express from 'express';
 import { login, register, sendOtp } from '../controllers/auth.controllers.js';
+import { verifyUser } from '../middleware/verifyUser.js';
 
 
 const router = express.Router();
@@ -32,5 +33,17 @@ router.post('/register', register)
 
 // LOGIN
 router.post('/login', login)
+
+
+// VERIFY USER 
+// router.get('/verifyuser', verifyUser, (req, res) => {
+//     const user = { "name": "harsh", "age": "23" }
+
+//     return res.status(200).json({
+//         message: "Success",
+//         user,
+//         success: true
+//     })
+// })
 
 export default router;
