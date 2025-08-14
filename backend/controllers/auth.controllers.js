@@ -4,6 +4,7 @@ import otpGenerator from 'otp-generator'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import 'dotenv/config'
+import Doctor from "../models/Doctor.mode.js";
 
 // SEND OTP
 export const sendOtp = async (req, res) => {
@@ -103,6 +104,9 @@ export const register = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
         console.log(hashedPassword)
         console.log('check 8')
+
+
+
         // CREATE USER
         const user = await User.create({
             firstName,
@@ -112,6 +116,20 @@ export const register = async (req, res) => {
             phone_number,
             account_type
         })
+
+
+        if (account_type == "Doctor") {
+            await Doctor.create({
+                user: user._id,
+                specialization: "NA",
+                degree: "NA",
+                experience: "NA",
+                availability: [],
+                available: false,
+                licenseNumber: "NA",
+                fees:"NA"
+            })
+        }
         console.log('check 9')
 
         return res.status(200).json({
