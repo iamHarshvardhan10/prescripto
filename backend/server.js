@@ -7,6 +7,7 @@ import dbConnection from './config/database.js';
 // import mailSender from './utils/mailSender.js';
 import authRoutes from './routes/auth.router.js'
 import profileRoutes from './routes/profile.router.js'
+import cloudinaryConnect from './config/cloudinary.js';
 
 
 const PORT = process.env.PORT;
@@ -22,6 +23,13 @@ app.get('/', (req, res) => {
         user: 'Ohh! Nice one , I am also doing great'
     })
 })
+
+
+// CLOUDINARY CONNECTION 
+cloudinaryConnect()
+
+
+
 
 
 app.use('/api/v1/auth', authRoutes)
