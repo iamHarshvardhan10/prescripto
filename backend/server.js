@@ -6,6 +6,8 @@ import dbConnection from './config/database.js';
 // import smsSender from './utils/smsSender.js';
 // import mailSender from './utils/mailSender.js';
 import authRoutes from './routes/auth.router.js'
+import profileRoutes from './routes/profile.router.js'
+
 
 const PORT = process.env.PORT;
 
@@ -23,6 +25,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/v1/auth', authRoutes)
+app.use('/api/v1/profile', profileRoutes)
 
 // mailSender('shreeharshpb11@gmail.com', 'Testing email', '<h1>Test Email </h1>')
 // smsSender('Coderoom Say Hello to you' , '+918108424468')

@@ -23,7 +23,7 @@ export const isUser = async (req, res, next) => {
 
 // isDoctor 
 
-const isDoctor = async (req, res, next) => {
+export const isDoctor = async (req, res, next) => {
     try {
         if (req.user.account_type !== 'Doctor') {
             return res.status(401).json({
