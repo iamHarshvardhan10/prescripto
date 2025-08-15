@@ -1,3 +1,4 @@
+import Doctor from "../models/Doctor.mode.js";
 import User from "../models/User.model.js";
 import { imageUploader } from "../utils/imageUploader.js";
 
@@ -98,7 +99,7 @@ export const updateUserImage = async (req, res) => {
                 success: false
             })
         }
-        
+
         const image = await imageUploader(image_url, process.env.CLOUD_FOLDER_NAME, 1000, 1000)
         const updateUserImage = await User.findByIdAndUpdate(
             { _id: userId },
@@ -118,3 +119,54 @@ export const updateUserImage = async (req, res) => {
         })
     }
 }
+
+
+
+
+// #####################################################
+//              DOCTOR                                 #
+// #####################################################
+
+
+export const deleteDoctorAccount = async (req, res) => {
+    try {
+        console.log("🔹 deleteDoctorAccount called");
+
+        const userId = req.user.id;
+        console.log("User ID from token:", userId);
+
+        const user = await User.findById(userId);
+        console.log("User found:", user);
+
+        if (!user) {
+            console.log("User not found");
+            return res.status(404).json({
+                success: false,
+                message: "User not found"
+            });
+        }
+
+        if (user.account_type === "Doctor") {
+            console.log("Deleting doctor profile...");
+            const deletedDoc = await Doctor.findOneAndDelete({ user: userId });
+            console.log("Deleted doctor:", deletedDoc);
+        }
+
+        console.log("Deleting user...");
+        const deletedUser = await User.findByIdAndDelete(userId);
+        console.log("Deleted user:", deletedUser);
+
+        return res.status(200).json({
+            success: true,
+            message: "Doctor account deleted successfully"
+        });
+
+    } catch (error) {
+        console.error("Error in deleteDoctorAccount:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Internal Server Error",
+            error: error.message
+        });
+    }
+};
