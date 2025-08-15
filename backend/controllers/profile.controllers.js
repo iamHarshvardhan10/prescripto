@@ -1,5 +1,5 @@
 import User from "../models/User.model.js";
-
+import { imageUploader } from "../utils/imageUploader.js";
 
 
 // #####################################
@@ -35,9 +35,9 @@ export const updateUserProfile = async (req, res) => {
             gender: gender,
             dob: dob,
             about: about
-        })
+        }, { new: true })
 
-        await userUpdate.save();
+        // await userUpdate.save();
 
         return res.status(200).json({
             message: 'Profile Updated Successfully',
@@ -79,6 +79,41 @@ export const deleteUserProfile = async (req, res) => {
         return res.status(500).json({
             message: 'Internal Server Error',
             success: false,
+            error: error.message
+        })
+    }
+}
+
+
+// UPDATE IMAGE 
+
+export const updateUserImage = async (req, res) => {
+    try {
+        const image_url = req.files.image_url;
+        const userId = req.user.id;
+
+        if (!await User.findById(userId)) {
+            return res.status(404).json({
+                message: 'User Not Found',
+                success: false
+            })
+        }
+        
+        const image = await imageUploader(image_url, process.env.CLOUD_FOLDER_NAME, 1000, 1000)
+        const updateUserImage = await User.findByIdAndUpdate(
+            { _id: userId },
+            { image_url: image.secure_url },
+            { new: true }
+        )
+
+        return res.status(200).json({
+            message: 'Image Upload Successfully',
+            success: true,
+            updateUserImage
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal Server Error',
             error: error.message
         })
     }
