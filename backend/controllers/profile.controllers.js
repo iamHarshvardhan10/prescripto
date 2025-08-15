@@ -130,7 +130,7 @@ export const updateUserImage = async (req, res) => {
 
 export const deleteDoctorAccount = async (req, res) => {
     try {
-        console.log("🔹 deleteDoctorAccount called");
+        console.log("deleteDoctorAccount called");
 
         const userId = req.user.id;
         console.log("User ID from token:", userId);
@@ -170,3 +170,63 @@ export const deleteDoctorAccount = async (req, res) => {
         });
     }
 };
+
+
+
+// Update doctor profile
+
+export const updateDoctorProfile = async (req, res) => {
+    try {
+        const {
+            specialization = "",
+            degree = "",
+            experience = "",
+            availability = [],
+            available = "",
+            licenseNumber = "",
+            fees = ""
+        } = req.body;
+
+        const userId = req.user.id;
+
+        if (!userId) {
+            return res.status(404).json({
+                message: 'User Not Found',
+                success: false
+            })
+        }
+
+        const user = await User.findById(userId)
+        if (!user) {
+            return res.status(404).json({
+                message: 'User Not Found',
+                success: false
+            })
+        }
+
+        let doctorProfileUpdate;
+        if (user.account_type == "Doctor") {
+            doctorProfileUpdate = await Doctor.findOneAndUpdate({ user: userId }, {
+                specialization,
+                degree,
+                experience,
+                availability,
+                available,
+                licenseNumber,
+                fees
+            }, { new: true })
+        }
+
+        return res.status(200).json({
+            message: "Doctor Profile Updated",
+            success: true,
+            doctorProfileUpdate
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message: 'Internal Server Error',
+            error: error.message
+        })
+    }
+}
