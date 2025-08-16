@@ -123,6 +123,33 @@ export const updateUserImage = async (req, res) => {
 
 
 
+export const getUserDetails = async (req, res) => {
+    try {
+        const userId = req.user.id;
+        if (!userId) {
+            return res.status(404).json({
+                message: 'User not found',
+                success: true
+            })
+        }
+
+        const user = await User.findById(userId);
+
+        return res.status(200).json({
+            message: 'Fetch User Successfully',
+            success: true,
+            user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            messaga: 'Internal Server Error',
+            error: error.message
+        })
+    }
+}
+
+
+
 // #####################################################
 //              DOCTOR                                 #
 // #####################################################

@@ -1,7 +1,7 @@
 import express from 'express'
 import { verifyUser } from '../middleware/verifyUser.js';
-import { isDoctor, isUser } from '../middleware/verifyAccount.js';
-import { deleteDoctorAccount, deleteUserProfile, updateDoctorProfile, updateUserImage, updateUserProfile } from '../controllers/profile.controllers.js';
+import { isAdmin, isDoctor, isUser } from '../middleware/verifyAccount.js';
+import { deleteDoctorAccount, deleteUserProfile, getUserDetails, updateDoctorProfile, updateUserImage, updateUserProfile } from '../controllers/profile.controllers.js';
 
 
 const router = express.Router();
@@ -17,6 +17,9 @@ router.delete('/deleteUser', verifyUser, isUser, deleteUserProfile)
 
 // UPDATE IMAGE URL FOR USER AND DOCTOR ALSO
 router.put('/updateImage', verifyUser, updateUserImage)
+
+// GET USER DETAILS
+router.get('/getUserDetails', verifyUser, isUser, getUserDetails)
 
 
 // ################################
