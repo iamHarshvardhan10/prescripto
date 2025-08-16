@@ -7,6 +7,7 @@ import dbConnection from './config/database.js';
 // import mailSender from './utils/mailSender.js';
 import authRoutes from './routes/auth.router.js'
 import profileRoutes from './routes/profile.router.js'
+import adminRoutes from './routes/admin.router.js'
 import cloudinaryConnect from './config/cloudinary.js';
 import fileUpload from 'express-fileupload';
 
@@ -42,6 +43,7 @@ cloudinaryConnect()
 
 app.use('/api/v1/auth', authRoutes)
 app.use('/api/v1/profile', profileRoutes)
+app.use('/api/v1/admin', adminRoutes)
 
 // mailSender('shreeharshpb11@gmail.com', 'Testing email', '<h1>Test Email </h1>')
 // smsSender('Coderoom Say Hello to you' , '+918108424468')
