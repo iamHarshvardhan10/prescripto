@@ -7,7 +7,7 @@ import TopDoctors from "../components/core/TopDoctors";
 const Home = () => {
   return (
     <>
-      <div className="home-container p-96 relative rounded-4xl">
+      <div className="home-container  relative rounded-4xl">
         <div className="home-r-side absolute top-[30%] w-[45%] left-16 capitalize">
           <h3 className="text-[54px] font-bold text-[#fff] leading-14">
             Book Appointment with Trusted Doctors
