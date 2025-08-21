@@ -21,7 +21,7 @@ const Speciality = () => {
               <img
                 src={item.image}
                 alt={item.speciality}
-                className="w-[75px] height-[75px]"
+                className="w-[75px] h-[75px]"
               />
               <span className="text-center mt-2">{item.speciality}</span>
             </div>
