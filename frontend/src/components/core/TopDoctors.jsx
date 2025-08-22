@@ -32,6 +32,11 @@ const TopDoctors = () => {
           </div>
         ))}
       </div>
+      <div className="flex items-center justify-center my-10">
+        <button className="bg-white text-[#5865F2] font-medium px-8 py-2 rounded-full shadow hover:bg-gray-100 transition">
+          More
+        </button>
+      </div>
     </div>
   );
 };
