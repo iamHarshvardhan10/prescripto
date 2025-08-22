@@ -1,6 +1,7 @@
 import React from "react";
 import { assets } from "../../assets/assets";
 import Button from "../common/Button";
+import { Link } from "react-router-dom";
 const Navbar = () => {
   return (
     <nav className="nav-container flex items-center justify-between">
@@ -10,10 +11,10 @@ const Navbar = () => {
       <div className="flex items-center justify-between">
         <ul className="flex items-center justify-between gap-10">
           <li className="cursor-pointer text-md hover:text-blue-700 nav-links">
-            Home
+            <Link to={"/"}>Home</Link>
           </li>
           <li className="cursor-pointer text-md hover:text-blue-700 nav-links">
-            All Doctors
+            <Link to={"/all-doctors"}>All Doctors</Link>
           </li>
           <li className="cursor-pointer text-md hover:text-blue-700 nav-links">
             About
@@ -24,7 +25,11 @@ const Navbar = () => {
         </ul>
       </div>
       <div>
-        <Button text={"Create Account"} to={"/sign"} className={"btn btn-container"}/>
+        <Button
+          text={"Create Account"}
+          to={"/sign"}
+          className={"btn btn-container"}
+        />
       </div>
     </nav>
   );
