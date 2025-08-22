@@ -17,10 +17,10 @@ const Navbar = () => {
             <Link to={"/all-doctors"}>All Doctors</Link>
           </li>
           <li className="cursor-pointer text-md hover:text-blue-700 nav-links">
-            About
+            <Link to={"/about"}>About</Link>
           </li>
           <li className="cursor-pointer text-md hover:text-blue-700 nav-links">
-            Contact
+            <Link to={"/contact"}>Contact</Link>
           </li>
         </ul>
       </div>
