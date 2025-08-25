@@ -18,20 +18,30 @@ const Sign = () => {
     <div className="flex items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-md">
         <Tabs defaultValue="User" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6 bg-gray-100 rounded-lg p-1">
+          <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent">
             <TabsTrigger
               value="User"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white
-               rounded-md px-4 py-2 text-sm font-medium text-gray-600
-               transition-all hover:bg-gray-200"
+              className="relative px-4 py-2 text-sm font-medium text-gray-600
+               transition-all hover:text-blue-600
+               data-[state=active]:text-blue-600
+               data-[state=active]:font-semibold
+               after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full 
+               after:bg-blue-600 after:scale-x-0 
+               data-[state=active]:after:scale-x-100 
+               after:transition-transform after:duration-300"
             >
               User
             </TabsTrigger>
             <TabsTrigger
               value="Doctor"
-              className="data-[state=active]:bg-blue-600 data-[state=active]:text-white
-               rounded-md px-4 py-2 text-sm font-medium text-gray-600
-               transition-all hover:bg-gray-200"
+              className="relative px-4 py-2 text-sm font-medium text-gray-600
+               transition-all hover:text-blue-600
+               data-[state=active]:text-blue-600
+               data-[state=active]:font-semibold
+               after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-full 
+               after:bg-blue-600 after:scale-x-0 
+               data-[state=active]:after:scale-x-100 
+               after:transition-transform after:duration-300"
             >
               Doctor
             </TabsTrigger>
@@ -45,7 +55,7 @@ const Sign = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid gap-6">
-                {/* First + Last Name */}
+              
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="firstName">First Name</Label>
@@ -65,7 +75,7 @@ const Sign = () => {
                   </div>
                 </div>
 
-                {/* Email */}
+            
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -76,7 +86,7 @@ const Sign = () => {
                   />
                 </div>
 
-                {/* Password + Confirm Password */}
+           
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
@@ -98,7 +108,7 @@ const Sign = () => {
                   </div>
                 </div>
 
-                {/* Phone */}
+            
                 <div className="grid gap-2">
                   <Label htmlFor="phone">Phone Number</Label>
                   <Input
@@ -125,7 +135,7 @@ const Sign = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid gap-6">
-                {/* First + Last Name */}
+        
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="firstName">First Name</Label>
@@ -145,7 +155,7 @@ const Sign = () => {
                   </div>
                 </div>
 
-                {/* Email */}
+       
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -156,7 +166,7 @@ const Sign = () => {
                   />
                 </div>
 
-                {/* Password + Confirm Password */}
+        
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
@@ -178,7 +188,7 @@ const Sign = () => {
                   </div>
                 </div>
 
-                {/* Phone */}
+            
                 <div className="grid gap-2">
                   <Label htmlFor="phone">Phone Number</Label>
                   <Input
