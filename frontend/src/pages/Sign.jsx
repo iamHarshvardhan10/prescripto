@@ -46,7 +46,7 @@ const Sign = () => {
 
   const handleSumbit = async (e) => {
     e.preventDefault();
-    setLoading(false);
+    dispatch(setLoading(true));
     if (formData.password !== formData.confirmPassword) {
       toast.error("Password must be same!");
       return;
@@ -72,14 +72,15 @@ const Sign = () => {
       const data = await res.json();
       console.log("res", data);
       if (!res.ok) {
-        setError(data.message);
+        dispatch(setError(data.message));
         console.log(data.message);
       }
       console.log(data);
       navigate("/verify-otp");
       toast.success("OTP SENT SUCCESSFULLY");
+      dispatch(setLoading(false));
     } catch (error) {
-      setError(error.message);
+      dispatch(setError(error.message));
       toast.error(error.message);
     }
   };
