@@ -6,6 +6,7 @@ import Footer from "./components/core/Footer";
 import AllDoctors from "./pages/AllDoctors";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import VerifyOtp from "./pages/VerifyOtp";
 const App = () => {
   return (
     <div className="app">
@@ -18,6 +19,9 @@ const App = () => {
           <Route path="/all-doctors" element={<AllDoctors />} />
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
+
+          {/* VERIFY OTP */}
+          <Route path="/verify-otp" element={<VerifyOtp />} />
         </Routes>
         <Footer />
       </BrowserRouter>

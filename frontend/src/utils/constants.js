@@ -1,5 +1,5 @@
 export const ACCOUNT_TYPE = {
-    user: 'USER',
+    user: 'User',
     doctor: 'Doctor',
     admin: 'Admin'
 }
