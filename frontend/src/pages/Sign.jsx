@@ -12,15 +12,89 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useState } from "react";
+import { ACCOUNT_TYPE } from "@/utils/constants";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
+import { setError, setLoading, setUser } from "@/redux/userSlice/userSlice";
+import { AUTH_API } from "@/utils/apis";
 
 const Sign = () => {
+  const [account_type, setAccount_type] = useState(ACCOUNT_TYPE.user);
+  // console.log("ACCOUNT_TYPE :- ", account_type);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    phone_number: "",
+  });
+
+  const handleOnChange = (e) => {
+    console.log(e);
+    setFormData((prevData) => ({
+      ...prevData,
+      [e.target.id]: e.target.value,
+    }));
+  };
+  console.log(formData);
+
+  const handleSumbit = async (e) => {
+    e.preventDefault();
+    setLoading(false);
+    if (formData.password !== formData.confirmPassword) {
+      toast.error("Password must be same!");
+      return;
+    }
+
+    const registerData = {
+      ...formData,
+      account_type,
+    };
+    console.log(registerData);
+
+    dispatch(setUser(registerData));
+    try {
+      const res = await fetch(AUTH_API.SEND_OTP, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+
+      // console.log(res);
+      const data = await res.json();
+      console.log("res", data);
+      if (!res.ok) {
+        setError(data.message);
+        console.log(data.message);
+      }
+      console.log(data);
+      navigate("/verify-otp");
+      toast.success("OTP SENT SUCCESSFULLY");
+    } catch (error) {
+      setError(error.message);
+      toast.error(error.message);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen p-4">
       <div className="w-full max-w-md">
-        <Tabs defaultValue="User" className="w-full">
+        <Tabs
+          value={account_type}
+          onValueChange={(val) => setAccount_type(val)}
+          className="w-full"
+        >
           <TabsList className="grid w-full grid-cols-2 mb-6 bg-transparent">
             <TabsTrigger
-              value="User"
+              value={ACCOUNT_TYPE.user}
               className="relative px-4 py-2 text-sm font-medium text-gray-600
                transition-all hover:text-blue-600
                data-[state=active]:text-blue-600
@@ -33,7 +107,7 @@ const Sign = () => {
               User
             </TabsTrigger>
             <TabsTrigger
-              value="Doctor"
+              value={ACCOUNT_TYPE.doctor}
               className="relative px-4 py-2 text-sm font-medium text-gray-600
                transition-all hover:text-blue-600
                data-[state=active]:text-blue-600
@@ -47,87 +121,97 @@ const Sign = () => {
             </TabsTrigger>
           </TabsList>
 
-          <TabsContent value="User">
+          <TabsContent value={ACCOUNT_TYPE.user}>
             <Card className="bg-transparent shadow-none border-none">
-              <CardHeader>
-                <CardTitle className="text-center text-xl font-semibold text-blue-700">
-                  Register As New User!
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="grid gap-6">
-              
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="grid gap-2">
-                    <Label htmlFor="firstName">First Name</Label>
-                    <Input
-                      id="firstName"
-                      placeholder="John"
-                      className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                    />
+              <form action="" onSubmit={handleSumbit}>
+                <CardHeader>
+                  <CardTitle className="text-center text-xl font-semibold text-blue-700">
+                    Register As New User!
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="grid gap-6">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="firstName">First Name</Label>
+                      <Input
+                        id="firstName"
+                        placeholder="John"
+                        value={formData.firstName}
+                        onChange={handleOnChange}
+                        className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="lastName">Last Name</Label>
+                      <Input
+                        id="lastName"
+                        placeholder="Doe"
+                        value={formData.lastName}
+                        onChange={handleOnChange}
+                        className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                      />
+                    </div>
                   </div>
-                  <div className="grid gap-2">
-                    <Label htmlFor="lastName">Last Name</Label>
-                    <Input
-                      id="lastName"
-                      placeholder="Doe"
-                      className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                    />
-                  </div>
-                </div>
 
-            
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="johndoe@example.com"
-                    className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  />
-                </div>
-
-           
-                <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="email">Email</Label>
                     <Input
-                      id="password"
-                      type="password"
-                      placeholder="********"
+                      id="email"
+                      type="email"
+                      value={formData.email}
+                      onChange={handleOnChange}
+                      placeholder="johndoe@example.com"
                       className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                   </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="password">Password</Label>
+                      <Input
+                        id="password"
+                        type="password"
+                        value={formData.password}
+                        onChange={handleOnChange}
+                        placeholder="********"
+                        className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                      />
+                    </div>
+                    <div className="grid gap-2">
+                      <Label htmlFor="confirmPassword">Confirm Password</Label>
+                      <Input
+                        id="confirmPassword"
+                        type="password"
+                        value={formData.confirmPassword}
+                        onChange={handleOnChange}
+                        placeholder="********"
+                        className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
+                      />
+                    </div>
+                  </div>
+
                   <div className="grid gap-2">
-                    <Label htmlFor="confirmPassword">Confirm Password</Label>
+                    <Label htmlFor="phone_number">Phone Number</Label>
                     <Input
-                      id="confirmPassword"
-                      type="password"
-                      placeholder="********"
+                      id="phone_number"
+                      value={formData.phone_number}
+                      onChange={handleOnChange}
+                      type="tel"
+                      placeholder="+91 9876543210"
                       className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
                     />
                   </div>
-                </div>
-
-            
-                <div className="grid gap-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="+91 9876543210"
-                    className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
-                  />
-                </div>
-              </CardContent>
-              <CardFooter>
-                <Button className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 transition-all">
-                  Submit
-                </Button>
-              </CardFooter>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 transition-all">
+                    Submit
+                  </Button>
+                </CardFooter>
+              </form>
             </Card>
           </TabsContent>
 
-          <TabsContent value="Doctor">
+          <TabsContent value={ACCOUNT_TYPE.doctor}>
             <Card className="bg-transparent shadow-none border-none">
               <CardHeader>
                 <CardTitle className="text-center text-xl font-semibold text-blue-700">
@@ -135,7 +219,6 @@ const Sign = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="grid gap-6">
-        
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="firstName">First Name</Label>
@@ -155,7 +238,6 @@ const Sign = () => {
                   </div>
                 </div>
 
-       
                 <div className="grid gap-2">
                   <Label htmlFor="email">Email</Label>
                   <Input
@@ -166,7 +248,6 @@ const Sign = () => {
                   />
                 </div>
 
-        
                 <div className="grid grid-cols-2 gap-4">
                   <div className="grid gap-2">
                     <Label htmlFor="password">Password</Label>
@@ -188,11 +269,10 @@ const Sign = () => {
                   </div>
                 </div>
 
-            
                 <div className="grid gap-2">
-                  <Label htmlFor="phone">Phone Number</Label>
+                  <Label htmlFor="phone_number">Phone Number</Label>
                   <Input
-                    id="phone"
+                    id="phone_number"
                     type="tel"
                     placeholder="+91 9876543210"
                     className="rounded-xl border-gray-300 focus:border-blue-500 focus:ring focus:ring-blue-200"
